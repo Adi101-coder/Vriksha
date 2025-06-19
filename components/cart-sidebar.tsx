@@ -18,8 +18,12 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
   const router = useRouter();
 
   const handleCheckout = () => {
-    router.push("/checkout");
+    toast({
+      title: "Proceeding to Checkout",
+      description: "Redirecting to secure payment page...",
+    });
     onClose();
+    router.push("/checkout");
   }
 
   return (
