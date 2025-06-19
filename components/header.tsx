@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { motion } from "framer-motion"
 import { Moon, Sun, Menu, X, Globe, ShoppingCart, Search } from "lucide-react"
 import { useTheme } from "next-themes"
@@ -38,6 +38,17 @@ export function Header() {
     { code: "ar", name: "العربية", flag: "🇸🇦" },
   ]
 
+  const scrollToContact = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    const footer = document.getElementById('contact')
+    if (footer) {
+      footer.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }, [])
+
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -62,20 +73,15 @@ export function Header() {
             >
               {t("home")}
             </Link>
-            <a
-              href="#categories"
-              className="text-gray-700 dark:text-gray-300 hover:text-vriksha-green dark:hover:text-green-400 transition-colors"
-            >
-              {t("categories")}
-            </a>
-            <a
-              href="#about"
+            <Link
+              href="/about"
               className="text-gray-700 dark:text-gray-300 hover:text-vriksha-green dark:hover:text-green-400 transition-colors"
             >
               {t("about")}
-            </a>
+            </Link>
             <a
-              href="#contact"
+              href="/#contact"
+              onClick={scrollToContact}
               className="text-gray-700 dark:text-gray-300 hover:text-vriksha-green dark:hover:text-green-400 transition-colors"
             >
               {t("contact")}
@@ -205,42 +211,26 @@ export function Header() {
               >
                 {t("home")}
               </Link>
-              <a
-                href="#categories"
-                className="text-gray-700 dark:text-gray-300 hover:text-vriksha-green dark:hover:text-green-400 transition-colors"
-              >
-                {t("categories")}
-              </a>
-              <a
-                href="#about"
+              <Link
+                href="/about"
                 className="text-gray-700 dark:text-gray-300 hover:text-vriksha-green dark:hover:text-green-400 transition-colors"
               >
                 {t("about")}
-              </a>
+              </Link>
               <a
-                href="#contact"
+                href="/#contact"
+                onClick={scrollToContact}
                 className="text-gray-700 dark:text-gray-300 hover:text-vriksha-green dark:hover:text-green-400 transition-colors"
               >
                 {t("contact")}
               </a>
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <Link
                   href="/dashboard"
                   className="text-gray-700 dark:text-gray-300 hover:text-vriksha-green dark:hover:text-green-400 transition-colors"
                 >
                   {t("dashboard")}
                 </Link>
-              ) : (
-                <div className="flex flex-col space-y-2 pt-4 border-t border-green-200 dark:border-green-800">
-                  <Link href="/auth/signin">
-                    <Button variant="ghost" className="w-full justify-start">
-                      {t("signIn")}
-                    </Button>
-                  </Link>
-                  <Link href="/auth/signup">
-                    <Button className="w-full bg-vriksha-green hover:bg-vriksha-green/90">{t("signUp")}</Button>
-                  </Link>
-                </div>
               )}
             </div>
           </motion.nav>
